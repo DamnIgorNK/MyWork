@@ -2,26 +2,20 @@ import tweepy
 import requests
 import numpy as np
 import config
-
-
-api_key             = config.API_KEY
-api_key_secret      = config.API_KEY_SECRET
-bearer_token        = config.BEARER_TOKEN
-access_token        = config.ACCESS_TOKEN
-access_token_secret = config.ACCESS_TOKEN_SECRET
+import pandas as pd
 
 
 class TwitterAPI:
-    api_key             = config.API_KEY
-    api_key_secret      = config.API_KEY_SECRET
-    bearer_token        = config.BEARER_TOKEN
-    access_token        = config.ACCESS_TOKEN
-    access_token_secret = config.ACCESS_TOKEN_SECRET
+
 
     def __init__(self):
-        pass
+        self.api_key             = config.API_KEY
+        self.api_key_secret      = config.API_KEY_SECRET
+        self.bearer_token        = config.BEARER_TOKEN
+        self.access_token        = config.ACCESS_TOKEN
+        self.access_token_secret = config.ACCESS_TOKEN_SECRET
 
-    def f_authentate_twitter_api(self):
+    def __f_authentate_twitter_api(self):
         """Twitter API認証関数
 
         return:
@@ -34,4 +28,20 @@ class TwitterAPI:
         return api
 
 
+class GetTrend(TwitterAPI):
+    def __init__(self):
+        super().__init__()
+        df = self.__f_get_trend()
+
+    def __f_get_trend(self):
+        # 日本のWOEID
+        woeid = 23424856
+        # トレンド取得
+        api = self.__f_authentate_twitter_api()
+        trends = api.get_place_trends(woeid)
+        df = pd.DataFrame(trends[0]['trends'])
+
+        return df
+
+g = GetTrend()
     
