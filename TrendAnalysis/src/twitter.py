@@ -6,8 +6,8 @@ import pandas as pd
 
 
 class TwitterAPI:
-
-
+    """API認証を行う親クラス
+    """
     def __init__(self):
         self.api_key             = config.API_KEY
         self.api_key_secret      = config.API_KEY_SECRET
@@ -29,19 +29,39 @@ class TwitterAPI:
 
 
 class GetTrend(TwitterAPI):
+    """Twitter APIの中でもトレンド関連に特化したクラス
+    """
     def __init__(self):
         super().__init__()
-        df = self.__f_get_trend()
+
 
     def __f_get_trend(self):
         # 日本のWOEID
         woeid = 23424856
-        # トレンド取得
+        # API獲得
         api = self.__f_authentate_twitter_api()
+        # トレンド取得
         trends = api.get_place_trends(woeid)
         df = pd.DataFrame(trends[0]['trends'])
 
         return df
 
-g = GetTrend()
+
+class GetTweet(TwitterAPI):
+    """ツイートのGETリクエストに特化したTwitterAPIの子クラス
+    """
+    def __init__(self):
+        super().__init__()
+
+    def f_get_tweets(self, word: str):
+        q = f'{word}'
+        item_num = 20
+
+        api = self.__f_authentate_twitter_api()
+        "取得するツイートは以下のようにJSON形式でまとめておく．中身はtweet.textで確認できる"
+        tweets = tweepy.Cursor(
+            api.search_tweets,
+            q=q,
+            lang='ja',
+        ).items(item_num)
     
