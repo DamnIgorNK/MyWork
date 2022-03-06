@@ -15,7 +15,7 @@ class TwitterAPI:
         self.access_token        = config.ACCESS_TOKEN
         self.access_token_secret = config.ACCESS_TOKEN_SECRET
 
-    def __f_authentate_twitter_api(self):
+    def f_authentate_twitter_api(self):
         """Twitter API認証関数
 
         return:
@@ -35,11 +35,11 @@ class GetTrend(TwitterAPI):
         super().__init__()
 
 
-    def __f_get_trend(self):
+    def f_get_trend(self):
         # 日本のWOEID
         woeid = 23424856
         # API獲得
-        api = self.__f_authentate_twitter_api()
+        api = self.f_authentate_twitter_api()
         # トレンド取得
         trends = api.get_place_trends(woeid)
         df = pd.DataFrame(trends[0]['trends'])
@@ -64,4 +64,7 @@ class GetTweet(TwitterAPI):
             q=q,
             lang='ja',
         ).items(item_num)
-    
+
+t = GetTrend()
+df = t.f_get_trend()
+print(df)
