@@ -58,13 +58,18 @@ class GetTweet(TwitterAPI):
         item_num = 20
 
         api = self.__f_authentate_twitter_api()
-        "取得するツイートは以下のようにJSON形式でまとめておく．中身はtweet.textで確認できる"
+        # 取得するツイートは以下のようにJSON形式でまとめておく．中身はtweet.textで確認できるS
         tweets = tweepy.Cursor(
             api.search_tweets,
             q=q,
             lang='ja',
         ).items(item_num)
 
-t = GetTrend()
-df = t.f_get_trend()
-print(df)
+
+def test():
+    t = GetTrend()
+    df = t.f_get_trend()
+    print(df)
+
+if __name__=='__main__':
+    test()
