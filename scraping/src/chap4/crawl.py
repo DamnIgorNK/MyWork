@@ -73,7 +73,7 @@ class Crawler:
             
             title = self.safe_get(bs, site.title_tag)
             body = self.safe_get(bs, site.body_tag)
-
+            
             if title!='' and body!='':        
                 content = Content(topic=topic, title=title, body=body, url=url)
                 content.printing()
@@ -90,7 +90,7 @@ def main():
                  'result_url':'h3.search-result-title a',
                  'absolute_url':False,
                  'title_tag':'h1',
-                 'body_tag':'div.StandardArticleBody_body_1gnLA'}
+                 'body_tag':'div.StandardArticleBody_body_1gnLA'} #bodyタグが間違っている可能性
 
     
     sites = []
