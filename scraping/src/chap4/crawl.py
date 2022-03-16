@@ -83,14 +83,14 @@ class Crawler:
 def main():
     crawler = Crawler()
 
-    site_data = {'name':'Brookings',
-                 'url':'http://www.brookings.edu',
-                 'search_url':'https://www.brookings.edu/search/?s=',
-                 'result_listing':'div.list-content article',
-                 'result_url':'h4.title a',
-                 'absolute_url':True,
+    site_data = {'name':'Reuters',
+                 'url':'http://reuters.com',
+                 'search_url':'http://www.reuters.com/search/news?blob=',
+                 'result_listing':'div.search-result-content',
+                 'result_url':'h3.search-result-title a',
+                 'absolute_url':False,
                  'title_tag':'h1',
-                 'body_tag':'div-post-body'}
+                 'body_tag':'div.StandardArticleBody_body_1gnLA'}
 
     
     sites = []
