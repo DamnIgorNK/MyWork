@@ -1,4 +1,4 @@
-import site
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -45,7 +45,7 @@ class Crawler:
             req = requests.get(url)
         except requests.exceptions.RequestException: #urlがなかったとき
             return None
-        return BeautifulSoup(req, 'html.parser')
+        return BeautifulSoup(req.text, 'html.parser')
 
     def safe_get(self, page_obj:BeautifulSoup, selector:str):
         child_obj = page_obj.select(selector)
@@ -106,7 +106,7 @@ def main():
 
     topics = ['python', 'data science']
     for topic in topics:
-        print('GETTING INFO ABOUT' + topic)
+        print('GETTING INFO ABOUT ' + topic)
         for target_site in sites:
             crawler.search(topic, target_site)
 
