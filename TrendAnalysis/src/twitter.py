@@ -29,7 +29,7 @@ class TwitterAPI:
         return api
 
 
-class GetTrend(TwitterAPI):
+class GetInfo(TwitterAPI):
     """Twitter APIの中でもトレンド関連に特化したクラス
     """
     def __init__(self):
@@ -65,7 +65,7 @@ class GetTrend(TwitterAPI):
 
 
 def test():
-    t = GetTrend()
+    t = GetInfo()
     df = t.get_trend()
     for word in df['name'].tolist():
         print(word)
