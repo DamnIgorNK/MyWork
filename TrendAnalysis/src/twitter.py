@@ -3,7 +3,8 @@ import requests
 import numpy as np
 import config
 import pandas as pd
-
+from datetime import datetime
+import openpyxl
 
 class TwitterAPI:
     """API認証を行う親クラス
@@ -15,7 +16,7 @@ class TwitterAPI:
         self.access_token        = config.ACCESS_TOKEN
         self.access_token_secret = config.ACCESS_TOKEN_SECRET
 
-    def f_authentate_twitter_api(self):
+    def authentate_twitter_api(self):
         """Twitter API認証関数
 
         return:
@@ -35,41 +36,41 @@ class GetTrend(TwitterAPI):
         super().__init__()
 
 
-    def f_get_trend(self):
+    def get_trend(self):
         # 日本のWOEID
         woeid = 23424856
         # API獲得
-        api = self.f_authentate_twitter_api()
+        api = self.authentate_twitter_api()
         # トレンド取得
         trends = api.get_place_trends(woeid)
         df = pd.DataFrame(trends[0]['trends'])
-
+        df.to_excel(f'{datetime.now()}_trend.xlsx')
         return df
 
 
-class GetTweet(TwitterAPI):
-    """ツイートのGETリクエストに特化したTwitterAPIの子クラス
-    """
-    def __init__(self):
-        super().__init__()
-
-    def f_get_tweets(self, word: str):
+    def get_tweet(self, word: str):
         q = f'{word}'
         item_num = 20
 
-        api = self.__f_authentate_twitter_api()
+        api = self.authentate_twitter_api()
         # 取得するツイートは以下のようにJSON形式でまとめておく．中身はtweet.textで確認できるS
         tweets = tweepy.Cursor(
             api.search_tweets,
             q=q,
             lang='ja',
         ).items(item_num)
+        for tweet in tweets:
+            print(tweet.text)
+        return tweets
 
 
 def test():
     t = GetTrend()
-    df = t.f_get_trend()
-    print(df)
+    df = t.get_trend()
+    for word in df['name'].tolist():
+        print(word)
+        tweets = t.get_tweet(word)
+
 
 if __name__=='__main__':
     test()

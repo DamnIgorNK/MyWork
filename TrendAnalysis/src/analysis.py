@@ -1,19 +1,34 @@
-# 拾ってきたツイートを元に感情分析を行う
 from mlask import MLAsk
-# 最初，MeCabは何故かImportErrorが出て太刀打ちできなかったが，以下のリンクを参考にMecabの動作を確認．
-# https://qiita.com/G1998G/items/2ad1b62c0285e478bfab
+import re
+import janome
 
 
-class Feeling:
+
+class AnalyzeSentence:
     """MLAskで感情を分析するクラス"""
 
-    def __init__():
+    def __init__(self):
         pass
+        self.feeling("今日は仕事だったんだけど，大変だったよ．")
+        self.feeling("後輩がめちゃくちゃ頑張ってくれて，おれは嬉しいよ")
+        self.feeling("うあーーー")
 
-    def feeling(self, word):
+    def feeling(self, sentence):
         """感情分析を行う関数，１０この感情をどう振り分けるかを検討中"""
         analyzer = MLAsk()
-        ans = analyzer.analyze(word)
+        emotion_dict = analyzer.analyze(sentence)
+        print(emotion_dict)
+        try:
+            emotion_orientation = emotion_dict['orientation']
+            emotion = emotion_dict["emotion"]
+        except KeyError:
+            print("NEUTRAL")
+        
+        return emotion_dict
+
+
+t = AnalyzeSentence()
+
 
 
 
